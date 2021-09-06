@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
-    1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
-    1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
+    1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
+    1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
@@ -61,27 +61,28 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[i].classList.add('power-pellet')
       } else if (layout[i] === 5) {
         squares[i].classList.add('cover')
+        squares[i].innerHTML = '<span style="font-size:11px">' + i + '</span>';
       }
     }
   }
   createBoard()
 
-    //get the list of cover locations
-    let cover_location_x = []
-    let cover_location_y = []
-    for (let index = 0; index < layout.length; index++) {
-      let index_x = index % width;
-      let index_y = Math.floor(index / width);
-      if (layout[index] == 5) {
-        cover_location_x.push(index_x)
-        cover_location_y.push(index_y)
-      }
+  //get the list of cover locations
+  let cover_location_x = []
+  let cover_location_y = []
+  for (let index = 0; index < layout.length; index++) {
+    let index_x = index % width;
+    let index_y = Math.floor(index / width);
+    if (layout[index] == 5) {
+      cover_location_x.push(index_x)
+      cover_location_y.push(index_y)
     }
+  }
 
 
   //create Characters
   //draw pacman onto the board
-  let pacmanCurrentIndex = 33//725//490
+  let pacmanCurrentIndex = 697//33//725//490
   squares[pacmanCurrentIndex].classList.add('pac-man')
   //get the coordinates of pacman on the grid with X and Y axis
   // function getCoordinates(index) {
@@ -187,9 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
   //all my ghosts
   ghosts = [
     new Ghost('blinky', 328, 500),
-    new Ghost('pinky', 356, 400),
-    new Ghost('inky', 331, 300),
-    new Ghost('clyde', 359, 500)
+    // new Ghost('pinky', 356, 400),
+    // new Ghost('inky', 331, 300),
+    // new Ghost('clyde', 359, 500)
   ]
 
   //eye sights
@@ -266,34 +267,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function checkForGameOver2(enemyCurrentIndex, eyeSight) {
 
-
-    // NEW TODO
-    // SEARCH cover FIRST IF SO THEN CHECK WHETHER THE WALL IS LOCATED IN FROMT OF PLAYER
-
-
-
-
     // 0,0 is located at left top. every cordinates are positive
-    // console.log(enemyCurrentIndex)
     let enemy_x = enemyCurrentIndex % width
     let enemy_y = Math.floor(enemyCurrentIndex / width)
-    // console.log("enemy_x", enemy_x)
-    // console.log("enemy_y", enemy_y)
 
-    // console.log("player");
-    //y=ax+b
     let player_x = pacmanCurrentIndex % width;
     let player_y = Math.floor(pacmanCurrentIndex / width);
-    // console.log("enemy_x", player_x)
-    // console.log("enemy_y", player_y)
 
-    let found_check = true
 
+    let found_check = false
+    let least_coefficient_a_diff = Infinity
+    let least_cover_index = Infinity
+    let player_enemy_dis = Infinity
+    let cover_enemy_dis = Infinity
 
     switch (eyeSight) {
       case 'north':
         //first quadrant, second quadrant
         if (player_y < enemy_y) {
+
+
           for (let index = 0; index < layout.length; index++) {
             let index_x = index % width;
             let index_y = Math.floor(index / width);
@@ -301,49 +294,51 @@ document.addEventListener('DOMContentLoaded', () => {
               let cover_x = index % width;
               let cover_y = Math.floor(index / width);
               let cover_enemy = (cover_y - enemy_y) / (cover_x - enemy_x)
-              let cover_dis = Math.sqrt((Math.pow((cover_y - enemy_y),2)) + (Math.pow((cover_x - enemy_x),2)))
+              let cover_enemy_each = Math.sqrt((Math.pow((cover_y - enemy_y), 2)) + (Math.pow((cover_x - enemy_x), 2)))
               let player_enemy = (player_y - enemy_y) / (player_x - enemy_x)
-              let player_dis = Math.sqrt((Math.pow((player_y - enemy_y),2)) + (Math.pow((player_x - enemy_x),2)))
+              let player_enemy_each = Math.sqrt((Math.pow((player_y - enemy_y), 2)) + (Math.pow((player_x - enemy_x), 2)))
 
-              // console.log("abs north", Math.abs(cover_enemy - player_enemy))
-              // console.log("dis north",(player_dis - cover_dis))
-    
 
-              if ((Math.abs(cover_enemy - player_enemy)) <= 0.5 && player_dis >= cover_dis) {
-                // console.log("cover", cover_enemy)
-                // console.log("player", player_enemy)
-
-                // console.log("index",index)
-                // console.log("cover", cover_enemy)
-                // console.log("player", player_enemy)
-                // console.log("idx", index)
-                found_check = false
+              if (Math.abs(least_coefficient_a_diff) > Math.abs((cover_enemy - player_enemy)) || least_coefficient_a_diff == Infinity) {
+                least_coefficient_a_diff = Math.abs((cover_enemy - player_enemy))
+                least_cover_index = index
+                cover_enemy_dis = cover_enemy_each
+                player_enemy_dis = player_enemy_each
               }
-
-              if ((Math.abs(cover_enemy - player_enemy)) >= 0.5 && Math.abs(player_dis - cover_dis) < 0.5) {
-                found_check = false
-              }
-
-              if ((isNaN(player_dis-cover_dis))) {
-                found_check = false
-              }
-
             }
-
           }
 
+          if ((Math.abs(least_coefficient_a_diff)) > 0.5) {
+            found_check = true
+          }
+
+          if ((Math.abs(least_coefficient_a_diff)) <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
+            found_check = true
+          }
+
+          if (least_coefficient_a_diff %0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 2 && player_enemy_dis > cover_enemy_dis) {
+            found_check = false
+            console.log("cover-enemy-dis", cover_enemy_dis)
+            console.log("player-enemy-dis", player_enemy_dis)
+          }
+
+          if (least_coefficient_a_diff == Infinity) {
+            found_check = false
+          }
+
+          console.log("least coefficient north", least_coefficient_a_diff)
+          console.log("least_cover_index", least_cover_index)
           console.log("north end")
 
           if (found_check) {
             console.log('north found')
             document.removeEventListener('keyup', movePacman)
             ghosts.forEach(ghost => clearInterval(ghost.timerId))
+            console.log("cover-enemy-dis", cover_enemy_dis)
+            console.log("player-enemy-dis", player_enemy_dis)
             setTimeout(function () { alert("Game Over"); }, 500)
           }
 
-          // console.log(cover)
-
-          // console.log("north:got in an enemy's sight");
         }
 
         break;
@@ -358,43 +353,48 @@ document.addEventListener('DOMContentLoaded', () => {
               let cover_x = index % width;
               let cover_y = Math.floor(index / width);
               let cover_enemy = (cover_y - enemy_y) / (cover_x - enemy_x)
-              let cover_dis = Math.sqrt((Math.pow((cover_y - enemy_y),2)) + (Math.pow((cover_x - enemy_x),2)))
+              let cover_enemy_each = Math.sqrt((Math.pow((cover_y - enemy_y), 2)) + (Math.pow((cover_x - enemy_x), 2)))
               let player_enemy = (player_y - enemy_y) / (player_x - enemy_x)
-              let player_dis = Math.sqrt((Math.pow((player_y - enemy_y),2)) + (Math.pow((player_x - enemy_x),2)))
-
-              // console.log("abs south", Math.abs(cover_enemy - player_enemy))
-              // console.log("dis south",player_dis-cover_dis)
+              let player_enemy_each = Math.sqrt((Math.pow((player_y - enemy_y), 2)) + (Math.pow((player_x - enemy_x), 2)))
 
 
-              if ((Math.abs(cover_enemy - player_enemy)) <= 0.5 && player_dis >= cover_dis) {
-                // console.log("cover", cover_enemy)
-                // console.log("player", player_enemy)
-
-                // console.log("index",index)
-                // console.log("cover", cover_enemy)
-                // console.log("player", player_enemy)
-                // console.log("idx", index)
-                found_check = false
+              if (Math.abs(least_coefficient_a_diff) > Math.abs((cover_enemy - player_enemy)) || least_coefficient_a_diff == Infinity) {
+                least_coefficient_a_diff = Math.abs((cover_enemy - player_enemy))
+                least_cover_index = index
+                cover_enemy_dis = cover_enemy_each
+                player_enemy_dis = player_enemy_each
               }
-
-              if ((Math.abs(cover_enemy - player_enemy)) >= 0.5 && Math.abs(player_dis - cover_dis) < 0.5) {
-                found_check = false
-              }
-
-
-              if ((isNaN(player_dis-cover_dis))) {
-                found_check = false
-              }
-
-
-
             }
           }
+
+          if ((Math.abs(least_coefficient_a_diff)) > 0.5) {
+            found_check = true
+          }
+
+          if ((Math.abs(least_coefficient_a_diff)) <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
+            found_check = true
+          }
+
+          if (least_coefficient_a_diff%0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 2 && player_enemy_dis > cover_enemy_dis) {
+            found_check = false
+            console.log("cover-enemy-dis", cover_enemy_dis)
+            console.log("player-enemy-dis", player_enemy_dis)
+          }
+
+          if (least_coefficient_a_diff == Infinity) {
+            found_check = false
+          }
+
+          console.log("least coefficient south", least_coefficient_a_diff)
+          console.log("least_cover_index", least_cover_index)
           console.log("south end")
+
           if (found_check) {
             console.log('south found')
             document.removeEventListener('keyup', movePacman)
             ghosts.forEach(ghost => clearInterval(ghost.timerId))
+            console.log("cover-enemy-dis", cover_enemy_dis)
+            console.log("player-enemy-dis", player_enemy_dis)
             setTimeout(function () { alert("Game Over"); }, 500)
           }
 
@@ -412,39 +412,51 @@ document.addEventListener('DOMContentLoaded', () => {
               let cover_x = index % width;
               let cover_y = Math.floor(index / width);
               let cover_enemy = (cover_y - enemy_y) / (cover_x - enemy_x)
-              let cover_dis = Math.sqrt((Math.pow((cover_y - enemy_y),2)) + (Math.pow((cover_x - enemy_x),2)))
+              let cover_enemy_each = Math.sqrt((Math.pow((cover_y - enemy_y), 2)) + (Math.pow((cover_x - enemy_x), 2)))
               let player_enemy = (player_y - enemy_y) / (player_x - enemy_x)
-              let player_dis = Math.sqrt((Math.pow((player_y - enemy_y),2)) + (Math.pow((player_x - enemy_x),2)))
+              let player_enemy_each = Math.sqrt((Math.pow((player_y - enemy_y), 2)) + (Math.pow((player_x - enemy_x), 2)))
 
-              // console.log("abs west", Math.abs(cover_enemy - player_enemy))
-
-              if ((Math.abs(cover_enemy - player_enemy)) <= 0.5 && player_dis >= cover_dis) {
-                // console.log("cover", cover_enemy)
-                // console.log("player", player_enemy)
-
-                // console.log("index",index)
-                // console.log("cover", cover_enemy)
-                // console.log("player", player_enemy)
-                // console.log("idx", index)
-                found_check = false
+              if (Math.abs(least_coefficient_a_diff) > Math.abs((cover_enemy - player_enemy)) || least_coefficient_a_diff == Infinity) {
+                least_coefficient_a_diff = Math.abs((cover_enemy - player_enemy))
+                least_cover_index = index
+                cover_enemy_dis = cover_enemy_each
+                player_enemy_dis = player_enemy_each
               }
-
-              if ((Math.abs(cover_enemy - player_enemy)) >= 0.5 && player_dis > cover_dis) {
-                found_check = false
-              }
-
-              if ((isNaN(player_dis-cover_dis))) {
-                found_check = false
-              }
-
             }
           }
+
+          if ((least_coefficient_a_diff) > 0.5) {
+            found_check = true
+          }
+
+          if ((enemy_x - player_x) == 1 && least_coefficient_a_diff == 1 || (enemy_x - player_x) == 1 && least_coefficient_a_diff == 2) {
+            found_check = false
+            console.log("cover-enemy-dis", cover_enemy_dis)
+            console.log("player-enemy-dis", player_enemy_dis)
+          }
+
+          if (least_coefficient_a_diff%0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.666666666666667 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.6666666666666665 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.75 && player_enemy_dis > cover_enemy_dis) {
+            found_check = false
+          }
+
+          if ((Math.abs(least_coefficient_a_diff)) <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
+            found_check = true
+          }
+
+          if (least_coefficient_a_diff == Infinity) {
+            found_check = false
+          }
+
+          console.log("least coefficient west", least_coefficient_a_diff)
+          console.log("least_cover_index", least_cover_index)
           console.log("west end")
-          // console.log("west:got in an enemy's sight");
+
           if (found_check) {
             console.log('west found')
             document.removeEventListener('keyup', movePacman)
             ghosts.forEach(ghost => clearInterval(ghost.timerId))
+            console.log("cover-enemy-dis", cover_enemy_dis)
+            console.log("player-enemy-dis", player_enemy_dis)
             setTimeout(function () { alert("Game Over"); }, 500)
           }
         }
@@ -461,45 +473,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
               let cover_x = index % width;
               let cover_y = Math.floor(index / width);
-              // let cover_enemy = Math.tan((cover_y - enemy_y) / (cover_x - enemy_x))
 
-              // let player_enemy = Math.tan((player_y - enemy_y) / (player_x - enemy_x))
               let cover_enemy = (cover_y - enemy_y) / (cover_x - enemy_x)
-              let cover_dis = Math.sqrt((Math.pow((cover_y - enemy_y),2)) + (Math.pow((cover_x - enemy_x),2)))
+              let cover_enemy_each = Math.sqrt((Math.pow((cover_y - enemy_y), 2)) + (Math.pow((cover_x - enemy_x), 2)))
               let player_enemy = (player_y - enemy_y) / (player_x - enemy_x)
-              let player_dis = Math.sqrt((Math.pow((player_y - enemy_y),2)) + (Math.pow((player_x - enemy_x),2)))
+              let player_enemy_each = Math.sqrt((Math.pow((player_y - enemy_y), 2)) + (Math.pow((player_x - enemy_x), 2)))
 
 
-              console.log("abs east", Math.abs(cover_enemy - player_enemy))
-              console.log("dis east",player_dis-cover_dis)
-
-              if ((Math.abs(cover_enemy - player_enemy)) <= 0.5 && player_dis >= cover_dis) {
-                // console.log("cover", cover_enemy)
-                // console.log("player", player_enemy)
-
-                // console.log("index",index)
-                // console.log("cover", cover_enemy)
-                // console.log("player", player_enemy)
-                // console.log("idx", index)
-                found_check = false
-              }
-
-              if ((Math.abs(cover_enemy - player_enemy)) >= 0.5 && Math.abs(player_dis - cover_dis) < 0.5) {
-                found_check = false
-              }
-
-              if ((isNaN(player_dis-cover_dis))) {
-                found_check = false
+              if (Math.abs(least_coefficient_a_diff) > Math.abs((cover_enemy - player_enemy)) || least_coefficient_a_diff == Infinity) {
+                least_coefficient_a_diff = Math.abs((cover_enemy - player_enemy))
+                least_cover_index = index
+                cover_enemy_dis = cover_enemy_each
+                player_enemy_dis = player_enemy_each
               }
             }
           }
 
+          if ((Math.abs(least_coefficient_a_diff)) > 0.5) {
+            found_check = true
+          }
+
+          if ((player_x - enemy_x) == 1 && least_coefficient_a_diff == 1 || (player_x - enemy_x) == 1 && least_coefficient_a_diff == 2) {
+            found_check = false
+            console.log("cover-enemy-dis", cover_enemy_dis)
+            console.log("player-enemy-dis", player_enemy_dis)
+          }
+
+          if (least_coefficient_a_diff%0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.666666666666667 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.6666666666666665 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.75 && player_enemy_dis > cover_enemy_dis) {
+            found_check = false
+          }
+
+          if ((least_coefficient_a_diff) <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5  ) {
+            found_check = true
+          }
+
+          if (least_coefficient_a_diff == Infinity) {
+            found_check = false
+          }
+
+          console.log("least coefficient east", least_coefficient_a_diff)
+          console.log("least_cover_index", least_cover_index)
           console.log("east end")
+
 
           if (found_check) {
             console.log('east found')
             document.removeEventListener('keyup', movePacman)
             ghosts.forEach(ghost => clearInterval(ghost.timerId))
+            console.log("cover-enemy-dis", cover_enemy_dis)
+            console.log("player-enemy-dis", player_enemy_dis)
             setTimeout(function () { alert("Game Over"); }, 500)
           }
         }
