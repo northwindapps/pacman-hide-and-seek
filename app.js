@@ -293,14 +293,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (index < enemyCurrentIndex && layout[index] == 5) {
               let cover_x = index % width;
               let cover_y = Math.floor(index / width);
-              let cover_enemy = (cover_y - enemy_y) / (cover_x - enemy_x)
+              let cover_enemy_slope = (cover_y - enemy_y) / (cover_x - enemy_x)
               let cover_enemy_each = Math.sqrt((Math.pow((cover_y - enemy_y), 2)) + (Math.pow((cover_x - enemy_x), 2)))
-              let player_enemy = (player_y - enemy_y) / (player_x - enemy_x)
+              let player_enemy_slope = (player_y - enemy_y) / (player_x - enemy_x)
               let player_enemy_each = Math.sqrt((Math.pow((player_y - enemy_y), 2)) + (Math.pow((player_x - enemy_x), 2)))
 
 
-              if (Math.abs(least_coefficient_a_diff) > Math.abs((cover_enemy - player_enemy)) || least_coefficient_a_diff == Infinity) {
-                least_coefficient_a_diff = Math.abs((cover_enemy - player_enemy))
+              if (least_coefficient_a_diff > Math.abs((cover_enemy_slope - player_enemy_slope)) || least_coefficient_a_diff == Infinity) {
+                least_coefficient_a_diff = Math.abs((cover_enemy_slope - player_enemy_slope))
                 least_cover_index = index
                 cover_enemy_dis = cover_enemy_each
                 player_enemy_dis = player_enemy_each
@@ -308,11 +308,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
 
-          if ((Math.abs(least_coefficient_a_diff)) > 0.5) {
+          if (least_coefficient_a_diff > 0.5) {
             found_check = true
           }
 
-          if ((Math.abs(least_coefficient_a_diff)) <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
+          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
             found_check = true
           }
 
@@ -352,14 +352,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (index > enemyCurrentIndex && layout[index] == 5) {
               let cover_x = index % width;
               let cover_y = Math.floor(index / width);
-              let cover_enemy = (cover_y - enemy_y) / (cover_x - enemy_x)
+              let cover_enemy_slope = (cover_y - enemy_y) / (cover_x - enemy_x)
               let cover_enemy_each = Math.sqrt((Math.pow((cover_y - enemy_y), 2)) + (Math.pow((cover_x - enemy_x), 2)))
-              let player_enemy = (player_y - enemy_y) / (player_x - enemy_x)
+              let player_enemy_slope = (player_y - enemy_y) / (player_x - enemy_x)
               let player_enemy_each = Math.sqrt((Math.pow((player_y - enemy_y), 2)) + (Math.pow((player_x - enemy_x), 2)))
 
 
-              if (Math.abs(least_coefficient_a_diff) > Math.abs((cover_enemy - player_enemy)) || least_coefficient_a_diff == Infinity) {
-                least_coefficient_a_diff = Math.abs((cover_enemy - player_enemy))
+              if (least_coefficient_a_diff > Math.abs((cover_enemy_slope - player_enemy_slope)) || least_coefficient_a_diff == Infinity) {
+                least_coefficient_a_diff = Math.abs((cover_enemy_slope - player_enemy_slope))
                 least_cover_index = index
                 cover_enemy_dis = cover_enemy_each
                 player_enemy_dis = player_enemy_each
@@ -367,11 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
 
-          if ((Math.abs(least_coefficient_a_diff)) > 0.5) {
+          if (least_coefficient_a_diff > 0.5) {
             found_check = true
           }
 
-          if ((Math.abs(least_coefficient_a_diff)) <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
+          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
             found_check = true
           }
 
@@ -411,13 +411,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
               let cover_x = index % width;
               let cover_y = Math.floor(index / width);
-              let cover_enemy = (cover_y - enemy_y) / (cover_x - enemy_x)
+              let cover_enemy_slope = (cover_y - enemy_y) / (cover_x - enemy_x)
               let cover_enemy_each = Math.sqrt((Math.pow((cover_y - enemy_y), 2)) + (Math.pow((cover_x - enemy_x), 2)))
-              let player_enemy = (player_y - enemy_y) / (player_x - enemy_x)
+              let player_enemy_slope = (player_y - enemy_y) / (player_x - enemy_x)
               let player_enemy_each = Math.sqrt((Math.pow((player_y - enemy_y), 2)) + (Math.pow((player_x - enemy_x), 2)))
 
-              if (Math.abs(least_coefficient_a_diff) > Math.abs((cover_enemy - player_enemy)) || least_coefficient_a_diff == Infinity) {
-                least_coefficient_a_diff = Math.abs((cover_enemy - player_enemy))
+              if (Math.abs(least_coefficient_a_diff) > Math.abs((cover_enemy_slope - player_enemy_slope)) || least_coefficient_a_diff == Infinity) {
+                least_coefficient_a_diff = Math.abs((cover_enemy_slope - player_enemy_slope))
                 least_cover_index = index
                 cover_enemy_dis = cover_enemy_each
                 player_enemy_dis = player_enemy_each
@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
 
-          if ((least_coefficient_a_diff) > 0.5) {
+          if (least_coefficient_a_diff > 0.5) {
             found_check = true
           }
 
@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
             found_check = false
           }
 
-          if ((Math.abs(least_coefficient_a_diff)) <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
+          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
             found_check = true
           }
 
@@ -474,14 +474,14 @@ document.addEventListener('DOMContentLoaded', () => {
               let cover_x = index % width;
               let cover_y = Math.floor(index / width);
 
-              let cover_enemy = (cover_y - enemy_y) / (cover_x - enemy_x)
+              let cover_enemy_slope = (cover_y - enemy_y) / (cover_x - enemy_x)
               let cover_enemy_each = Math.sqrt((Math.pow((cover_y - enemy_y), 2)) + (Math.pow((cover_x - enemy_x), 2)))
-              let player_enemy = (player_y - enemy_y) / (player_x - enemy_x)
+              let player_enemy_slope = (player_y - enemy_y) / (player_x - enemy_x)
               let player_enemy_each = Math.sqrt((Math.pow((player_y - enemy_y), 2)) + (Math.pow((player_x - enemy_x), 2)))
 
 
-              if (Math.abs(least_coefficient_a_diff) > Math.abs((cover_enemy - player_enemy)) || least_coefficient_a_diff == Infinity) {
-                least_coefficient_a_diff = Math.abs((cover_enemy - player_enemy))
+              if (least_coefficient_a_diff > Math.abs((cover_enemy_slope - player_enemy_slope)) || least_coefficient_a_diff == Infinity) {
+                least_coefficient_a_diff = Math.abs((cover_enemy_slope - player_enemy_slope))
                 least_cover_index = index
                 cover_enemy_dis = cover_enemy_each
                 player_enemy_dis = player_enemy_each
@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
 
-          if ((Math.abs(least_coefficient_a_diff)) > 0.5) {
+          if (least_coefficient_a_diff> 0.5) {
             found_check = true
           }
 
@@ -503,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
             found_check = false
           }
 
-          if ((least_coefficient_a_diff) <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5  ) {
+          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5  ) {
             found_check = true
           }
 
