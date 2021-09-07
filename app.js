@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
     1, 4, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
-    1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
-    1, 4, 4, 4, 4, 4, 4, 4, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
-    1, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 1,
+    1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 1,
+    1, 4, 4, 4, 4, 4, 4, 4, 5, 5, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
+    1, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 1,
     1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1,
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //all my ghosts
   ghosts = [
     new Ghost('blinky', 328, 500),
-    // new Ghost('pinky', 356, 400),
+    new Ghost('pinky', 356, 400),
     // new Ghost('inky', 331, 300),
     // new Ghost('clyde', 359, 500)
   ]
@@ -312,17 +312,21 @@ document.addEventListener('DOMContentLoaded', () => {
             found_check = true
           }
 
-          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
+          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis < 15 && Math.abs(player_enemy_dis - cover_enemy_dis) < 5) {
             found_check = true
           }
 
-          if (least_coefficient_a_diff %0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 2 && player_enemy_dis > cover_enemy_dis) {
+          if (least_coefficient_a_diff % 0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 2 && player_enemy_dis > cover_enemy_dis) {
             found_check = false
             console.log("cover-enemy-dis", cover_enemy_dis)
             console.log("player-enemy-dis", player_enemy_dis)
           }
 
           if (least_coefficient_a_diff == Infinity) {
+            found_check = false
+          }
+
+          if (player_enemy_dis > 18) {
             found_check = false
           }
 
@@ -371,17 +375,21 @@ document.addEventListener('DOMContentLoaded', () => {
             found_check = true
           }
 
-          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
+          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis < 15 && Math.abs(player_enemy_dis - cover_enemy_dis) < 5) {
             found_check = true
           }
 
-          if (least_coefficient_a_diff%0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 2 && player_enemy_dis > cover_enemy_dis) {
+          if (least_coefficient_a_diff % 0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 2 && player_enemy_dis > cover_enemy_dis) {
             found_check = false
             console.log("cover-enemy-dis", cover_enemy_dis)
             console.log("player-enemy-dis", player_enemy_dis)
           }
 
           if (least_coefficient_a_diff == Infinity) {
+            found_check = false
+          }
+
+          if (player_enemy_dis > 18) {
             found_check = false
           }
 
@@ -435,15 +443,19 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("player-enemy-dis", player_enemy_dis)
           }
 
-          if (least_coefficient_a_diff%0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.666666666666667 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.6666666666666665 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.75 && player_enemy_dis > cover_enemy_dis) {
+          if (least_coefficient_a_diff % 0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.666666666666667 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.6666666666666665 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.75 && player_enemy_dis > cover_enemy_dis) {
             found_check = false
           }
 
-          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5 ) {
+          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis < 15 && Math.abs(player_enemy_dis - cover_enemy_dis) < 5) {
             found_check = true
           }
 
           if (least_coefficient_a_diff == Infinity) {
+            found_check = false
+          }
+
+          if (player_enemy_dis > 18) {
             found_check = false
           }
 
@@ -489,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
 
-          if (least_coefficient_a_diff> 0.5) {
+          if (least_coefficient_a_diff > 0.5) {
             found_check = true
           }
 
@@ -499,15 +511,19 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("player-enemy-dis", player_enemy_dis)
           }
 
-          if (least_coefficient_a_diff%0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.666666666666667 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.6666666666666665 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.75 && player_enemy_dis > cover_enemy_dis) {
+          if (least_coefficient_a_diff % 0.5 == 0 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.666666666666667 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.6666666666666665 && player_enemy_dis > cover_enemy_dis || least_coefficient_a_diff == 0.75 && player_enemy_dis > cover_enemy_dis) {
             found_check = false
           }
 
-          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis <15 &&  Math.abs( player_enemy_dis - cover_enemy_dis) < 5  ) {
+          if (least_coefficient_a_diff <= 0.4 && player_enemy_dis < cover_enemy_dis && player_enemy_dis < 15 && Math.abs(player_enemy_dis - cover_enemy_dis) < 5) {
             found_check = true
           }
 
           if (least_coefficient_a_diff == Infinity) {
+            found_check = false
+          }
+
+          if (player_enemy_dis > 18) {
             found_check = false
           }
 
